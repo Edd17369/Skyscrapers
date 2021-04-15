@@ -3,7 +3,7 @@
 ## Table of contents
 * [Introduction](#introduction)
 * [Technologies](#technologies)
-* [Illustration](#illustration)
+* [Illustrations](#illustrations)
 
 
 ## Introduction
