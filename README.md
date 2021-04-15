@@ -15,7 +15,7 @@ Skyscrapers is a building placing puzzle based on an 6x6 grid with some clues al
 
 ## Technologies
 Project is created with:
-* Python 3.8
+* Python 3.8.9
 * PySimpleGUI 4.38.0
 
 ## Illustrations
