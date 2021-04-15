@@ -18,7 +18,6 @@ Project is created with:
 
 ## Illustrations
 
-![Screeshot 1](./images/screenshot1.png)
-![Screeshot 2](./images/screenshot2.png)
-<img src="./images/screenshot2.png" width="400" height="790">
+<img src="./images/screenshot1.png" width="500" height="800">
+<img src="./images/screenshot2.png" width="500" height="800">
 
