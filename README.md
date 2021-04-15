@@ -18,6 +18,5 @@ Project is created with:
 
 ## Illustrations
 
-<img src="./images/screenshot1.png" width="600" height="800">
-<img src="./images/screenshot2.png" width="600" height="800">
+<img src="./images/screenshot1.png" width="600" height="800"> <img src="./images/screenshot2.png" width="600" height="800">
 
