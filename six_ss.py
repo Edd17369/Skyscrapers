@@ -5,11 +5,20 @@ import random
 from collections import deque
 
 
+# Examples of Skyscrapers puzzle
+# https://www.puzzle-skyscrapers.com/
+# https://www.brainbashers.com/skyscrapers.asp
+
+
+
+sg.theme('DarkGrey5') 
+
 clue = {'size':(3,1), 'font':('Franklin Gothic Book', 30), 'readonly':True, 'disabled_readonly_background_color':"#F1EABC", 'justification':'center'}
 corner = {'size':(3,1), 'font':('Franklin Gothic Book', 30), 'readonly':True, 'disabled_readonly_background_color':"#343434"}
 inputs = {'size':(3,1), 'font':('Franklin Gothic Book', 30), 'background_color':"#15f1af", 'justification':'center'}
+button = {'size':(9,1), 'font':('Lucida Bright', 12), 'button_color':'#005bd3', 'border_width':10}
 
-
+col0 = sg.Text('SKYSCRAPERS', font=('Rockwell', 22), justification='center')
 col1 = sg.Column(
     [[sg.Input(key=(0,0), **corner)]+[sg.Input(key=(0,i), **clue) for i in range(1,7)]+[sg.Input(key=(0,7), **corner)]], pad=(0,0)
     )
@@ -27,15 +36,15 @@ col5 = sg.Column(
 )
 col7 = sg.Column(
     [[sg.Frame('Actions:',
-         [[sg.Button('New Game'), sg.Button('Solve'), sg.Button('Clear'), sg.Button('Quit')]], size=(450,45), pad=(0,0)
+         [[sg.Button('New Game',**button), sg.Button('Solve',**button), sg.Button('Clear',**button), sg.Button('Quit',**button)]], pad=(0,0)
          )
-    ]], pad=(0,0)
+    ]], pad=(0,0), justification='center',
 )
-col6 = sg.Text(key='Output', size=(40,1))
+col6 = sg.Text(key='Output', size=(40,1), font=('Rockwell', 16), justification='center')
 
 board = sg.Frame('Board', [[col1], [col2, col3, col4], [col5]], )
-layout = [[board], [col6], [col7]]
-window = sg.Window('6x6 Skyscrapers', layout, size=(900,600))
+layout = [[sg.Text(' ')], [col0], [sg.Text(' ')] ,[board], [col6], [col7]]
+window = sg.Window('Skyscrapers', layout, size=(700,700), element_justification='c') # resizable=True
 
 
 def solve_puzzle(clues):
@@ -79,7 +88,8 @@ tests_clues = {0:(3, 6, 0, 0, 0, 2, 3, 0, 3, 0, 0, 0, 0, 4, 2, 5, 0, 0, 0, 0, 1,
                1:(3, 2, 2, 3, 2, 1, 1, 2, 3, 3, 2, 2, 5, 1, 2, 2, 4, 3, 3, 2, 1, 2, 2, 4), 
                2:(0, 0, 0, 2, 2, 0, 0, 0, 0, 6, 3, 0, 0, 4, 0, 0, 0, 0, 4, 4, 0, 3, 0, 0),
                3:(0, 3, 0, 5, 3, 4, 0, 0, 0, 0, 0, 1, 0, 3, 0, 3, 2, 3, 3, 2, 0, 3, 1, 0),
-               4:(4, 3, 2, 5, 1, 5, 2, 2, 2, 2, 3, 1, 1, 3, 2, 3, 3, 3, 5, 4, 1, 2, 3, 4)}
+               4:(4, 3, 2, 5, 1, 5, 2, 2, 2, 2, 3, 1, 1, 3, 2, 3, 3, 3, 5, 4, 1, 2, 3, 4),
+               5:(2, 0, 4, 0, 0, 3, 0, 3, 3, 0, 3, 0, 0, 3, 0, 0, 3, 3, 0, 0, 0, 0, 3, 4)}
 
 def turn_clues(turn, clues): # rotate clues
     queue = deque(clues)
@@ -100,8 +110,6 @@ def clear_clues():
         window[(i,0)].update('')
 
 
-tests = list(range(4*4))
-
 c = None
 
 while True:
@@ -111,11 +119,13 @@ while True:
     if event == 'Clear':
         clear_inputs()
     if event == 'New Game':
+        window['Output'].update('')
         clear_clues()
         clear_inputs()
-        x = random.sample(tests, 1)[0]
-        tes = x % 5
-        turn = x // 4
+        y = random.sample(range(16), 1)[0] # randomize rotation
+        x = random.sample(range(18), 1)[0] # randomize clue selection
+        tes = x % 6 # between 0, |tests_clues|
+        turn = y // 4 # between 0, 4 
         c = turn_clues(turn, tests_clues[tes])
         for i in range(1,7):
             if c[i-1] != 0:
@@ -133,19 +143,18 @@ while True:
                 for j in range(1,7):
                     val = window[(i,j)].get()
                     if val != str(x[i-1][j-1]):
-                        window[(i,j)].update(background_color = '#ff0000')
+                        window[(i,j)].update(background_color = '#fc1138')
                     window[(i,j)].update(x[i-1][j-1])      
         else:
             window['Output'].update('To continue start a new game')
         
-        
-
-    #window['-OUTPUT-'].update('first value'+ str(values[(1,1)]) + ', second values' + str(values[(2,2)]))
 
     # Input verification
-    """if len(values['-INPUT-']) and values['-INPUT-'][-1] not in ('0123456789'):
-        # delete last char from input
-        window['-INPUT-'].update(values['-INPUT-'][:-1])"""
+    """
+    for i in range(1,7):
+        for j in range(1,7):
+            if len(values) and values[(i,j)] not in range(9):
+                window['Output'].update(values[(i,j)] not a number)"""
 
 window.close() 
 
